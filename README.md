@@ -4,7 +4,7 @@ Ce repository contient le code necessaire pour la conception du serveur de Trace
 
 ## Features
 
-- [] Traceroute
+- [x] Traceroute
     This feature will use `paris-traceroute` as command line on the server
-- [] Ping 
+- [x] Ping 
     This feature will work as the command above
