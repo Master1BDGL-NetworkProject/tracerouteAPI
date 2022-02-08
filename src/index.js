@@ -1,17 +1,10 @@
 const express = require('express');
+const { pingRouter } = require('./ping/routes/ping-router');
+const { tracerouteRouter } = require('./traceroute/routes/traceroute_router');
 
 const app = express();
 
-
-app.use('/ping', (req, res) => {
-    //TODO
-    res.send('Ping endpoint')
-});
-
-app.use('/traceroute', (req, res) => {
-    //TODO
-    res.send('Traceroute endpoint')
-
-});
+app.use(pingRouter);
+app.use(tracerouteRouter);
 
 app.listen(8080, () => console.log('Server is running 🔥🔥'))
