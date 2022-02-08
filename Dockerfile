@@ -8,6 +8,6 @@ COPY package*.json .
 RUN npm install
 
 # Install traceroute tool
-RUN apt-get update -y && apt-get install -y paris-traceroute
+RUN apk update && apk add --upgrade paris-traceroute
 
 CMD [ "node","src/index.js"]
