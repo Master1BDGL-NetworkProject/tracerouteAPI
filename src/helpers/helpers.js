@@ -40,13 +40,7 @@ class DecoderHelpers {
             let ttl = this.extractTtl(_occurence);
 
             // Return object
-            return {
-                bits,
-                host,
-                sequenceNo,
-                time,
-                ttl
-            }
+            return { bits, host, sequenceNo, time, ttl }
         })
         return results;
     }
@@ -65,13 +59,7 @@ class DecoderHelpers {
             initialSequeNo++;
 
             // Return object
-            return {
-                bits,
-                host,
-                sequenceNo,
-                time,
-                ttl
-            }
+            return { bits, host, sequenceNo, time, ttl }
         })
         return results;
     }
