@@ -1,14 +1,21 @@
-const { execAsync, decodeWindowsPingOutput, formatPingInfoResponse } = require('../../helpers/helpers');
+const { execAsync, DecoderHelpers } = require('../../helpers/helpers');
+const { ParametersDecoders } = require('../../helpers/parametersHelper');
 
 const getPingInfoController = async (req, res) => {
-    // let { stderr, stdout } = await execAsync('ping google.com');
-    const _data = formatPingInfoResponse();
-    // if (!stderr) {
-    //     console.log(stdout);
-    //     // decodeWindowsPingOutput(stdout);
-    // }
-    res.json(_data);
-    // res.json({ data: 'Hello there' })
+    let _params = ParametersDecoders.extractParams(req.query);
+    let _command = ParametersDecoders.decodBuildPingParams(_params);
+
+    let { stderr, stdout } = await execAsync(_command);
+    if (!stderr) {
+        const _data = DecoderHelpers.decodeLinuxPingOutput(stdout);
+        res.json({
+            status: 200,
+            data: _data
+        });
+    }
+    else {
+        res.json({ status: 501, data: 'An error occured' })
+    }
 }
 
 module.exports = {

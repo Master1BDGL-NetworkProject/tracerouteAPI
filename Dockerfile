@@ -1,8 +1,11 @@
 FROM node:alpine3.14
 
 WORKDIR /app
+COPY . .
 
 COPY package*.json .
+
+# Copy source code
 
 # Install node depenencies
 RUN npm install
