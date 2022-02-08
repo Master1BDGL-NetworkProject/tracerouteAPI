@@ -1,6 +1,6 @@
 # Traceroute & Ping APIs
 
-Ce repository contient le code necessaire pour la conception du serveur de Traceroute & Ping necessaire a notre client
+This repository contains the required code for building the server of the traceroute and ping, which are required for building the client.
 
 ## Features
 
