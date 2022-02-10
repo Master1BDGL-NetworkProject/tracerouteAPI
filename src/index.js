@@ -1,6 +1,6 @@
 const express = require('express');
-const { pingRouter } = require('./ping/routes/ping-router');
-const { tracerouteRouter } = require('./traceroute/routes/traceroute_router');
+const { pingRouter } = require('./ping/routes/pingRouter');
+const { tracerouteRouter } = require('./traceroute/routes/tracerouteRouter');
 
 const app = express();
 

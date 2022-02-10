@@ -1,4 +1,5 @@
-const { execAsync, DecoderHelpers } = require('../../helpers/helpers');
+const { execAsync } = require('../../helpers/commonHelpers');
+const { PingDecodersHelper } = require('../../helpers/pingDecodersHelper');
 const { ParametersDecoders } = require('../../helpers/parametersHelper');
 
 const getPingInfoController = async (req, res) => {
@@ -7,7 +8,7 @@ const getPingInfoController = async (req, res) => {
 
     let { stderr, stdout } = await execAsync(_command);
     if (!stderr) {
-        const _data = DecoderHelpers.decodeLinuxPingOutput(stdout);
+        const _data = PingDecodersHelper.decodeLinuxPingOutput(stdout);
         res.json({
             status: 200,
             data: _data

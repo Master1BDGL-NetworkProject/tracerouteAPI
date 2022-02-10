@@ -1,6 +1,6 @@
 class ParametersDecoders {
     /// Decode params and format a command based on it
-    /// The passed object should be as followed
+    /// The passed object should be as follow
     /* 
         {
             host:'google.com',
