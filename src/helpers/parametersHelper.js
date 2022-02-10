@@ -11,7 +11,26 @@ class ParametersDecoders {
 
         } 
     */
-    static decodBuildPingParams = (data) => {
+
+    static decodBuildParisTracerouteParams = (data) => {
+        let _command = 'paris-traceroute';
+        if (data.hopsMaxNumber) {
+            _command += ` --max-hops=${data.hopsMaxNumber}`;
+        }
+        if (data.timeOut) {
+            _command += ` --wait=${data.timeOut}`;
+        }
+        if (data.protocol) {
+            _command += ` --protocol=${data.protocol}`;
+        }
+        if (data.host) {
+            _command += ` ${data.host}`;
+        }
+        return _command;
+    }
+
+
+    static decodBuildPingCommand = (data) => {
         let _command = 'ping';
         if (data.packetsNu) {
             _command += ` -c ${data.packetsNu}`;
@@ -25,19 +44,25 @@ class ParametersDecoders {
         if (data.timeOut) {
             _command += ` -W ${data.timeOut}`
         }
-
         if (data.host) {
             _command += ` ${data.host}`;
         }
         return _command;
     }
 
-    static extractParams = (data) => ({
+    static extractPingParams = (data) => ({
         packetsNu: parseInt(data.packetsNu),
         host: data.host,
         packetSize: parseInt(data.packetSize),
         ttl: parseInt(data.ttl),
         timeOut: parseInt(data.timeOut)
+    })
+
+    static extractTracerouteParams = (data) => ({
+        host: data.host,
+        hopsMaxNumber: data.hopsMaxNumber,
+        timeOut: parseInt(data.timeOut),
+        protocol: data.protocol /// either udp or icmp
     })
 }
 

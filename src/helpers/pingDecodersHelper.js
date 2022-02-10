@@ -82,7 +82,6 @@ class PingDecodersHelper {
     }
 
 
-
     static extractBitsWin = (data) => {
         return '32';
     }

@@ -29,7 +29,7 @@ describe('Testing ping helpers', () => {
 
 
     it('Should decode params and build a command', () => {
-        let command = ParametersDecoders.decodBuildPingParams({
+        let command = ParametersDecoders.decodBuildPingCommand({
             host: 'google.com',
             packetsNu: 5,
             packetSize: 56,
@@ -61,14 +61,13 @@ describe('Testing Traceroute helpers', () => {
     })
 
 
-    // it('Should decode params and build a command', () => {
-    //     let command = ParametersDecoders.decodBuildPingParams({
-    //         host: 'google.com',
-    //         packetsNu: 5,
-    //         packetSize: 56,
-    //         ttl: 44,
-    //         timeOut: 2000,
-    //     })
-    //     assert.equal(command, 'ping -c 5 -s 56 -t 44 -W 2000 google.com');
-    // })
+    it('Should decode params and build a paris-traceroute command', () => {
+        let command = ParametersDecoders.decodBuildParisTracerouteParams({
+            host: 'google.com',
+            hopsMaxNumber: 5,
+            timeOut: 56,
+            protocol: 'udp',
+        })
+        assert.equal(command, 'paris-traceroute --max-hops=5 --wait=56 --protocol=udp google.com');
+    })
 })

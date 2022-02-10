@@ -1,8 +1,7 @@
+const { getParisTraceInfoController } = require('../controllers/tracerouteController');
 const tracerouteRouter = require('express').Router();
 
-tracerouteRouter.get('/traceroute', (req, res) => {
-    res.send('Traceroute endpoint')
-});
+tracerouteRouter.get('/traceroute', getParisTraceInfoController);
 
 module.exports = {
     tracerouteRouter

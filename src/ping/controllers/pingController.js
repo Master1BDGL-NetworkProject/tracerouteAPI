@@ -3,8 +3,8 @@ const { PingDecodersHelper } = require('../../helpers/pingDecodersHelper');
 const { ParametersDecoders } = require('../../helpers/parametersHelper');
 
 const getPingInfoController = async (req, res) => {
-    let _params = ParametersDecoders.extractParams(req.query);
-    let _command = ParametersDecoders.decodBuildPingParams(_params);
+    let _params = ParametersDecoders.extractPingParams(req.query);
+    let _command = ParametersDecoders.decodBuildPingCommand(_params);
 
     let { stderr, stdout } = await execAsync(_command);
     if (!stderr) {
