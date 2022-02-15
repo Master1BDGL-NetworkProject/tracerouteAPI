@@ -26,7 +26,8 @@
   "homepage": "https://github.com/SiProgramming/tracerouteAPI#readme",
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.17.2"
+    "express": "^4.17.2",
+    "python-shell": "^3.0.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",
