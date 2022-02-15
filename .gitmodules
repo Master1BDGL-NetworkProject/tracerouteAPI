@@ -1,0 +1,3 @@
+[submodule "py-src"]
+	path = py-src
+	url = git@github.com:SiProgramming/traceroutePing-py-helper.git
