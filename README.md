@@ -22,3 +22,8 @@ For build the image run this command
 For running an instance of the image run this command below:
 
 `docker run --name <name-of-container> -p <desired-port>:8080 trace-in-server`
+
+
+
+<!-- docker run --name new-trace-in-server-test -p 8040:8080 -d -v $(pwd):/app ab0b5c8401ba
+680341e71177067199399c05871c33a3acf13a2fc39248c92d11127e9f618799 -->

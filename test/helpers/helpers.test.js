@@ -2,6 +2,8 @@ const assert = require('assert');
 const { PingDecodersHelper } = require('../../src/helpers/pingDecodersHelper');
 const { TracerouteDecodersHelper } = require('../../src/helpers/tracerouteDecodersHelper');
 const { ParametersDecoders } = require('../../src/helpers/parametersHelper');
+const { CommandTrigger } = require('../../src/helpers/commandTrigger');
+const { equal } = require('assert');
 
 describe('Testing ping helpers', () => {
     it('Should decode stdout', () => {
@@ -69,5 +71,11 @@ describe('Testing Traceroute helpers', () => {
             protocol: 'udp',
         })
         assert.equal(command, 'paris-traceroute --max-hops=5 --wait=56 --protocol=udp google.com');
+    })
+
+
+    it('Should print a message from python ', () => {
+        CommandTrigger.triggerPing();
+        assert.equal('a', 'a');
     })
 })

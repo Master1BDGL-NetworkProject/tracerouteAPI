@@ -1,12 +1,16 @@
 FROM node:alpine3.14
 
+
+
 WORKDIR /app
 
 COPY . .
 
 COPY package*.json .
 
-# Install node depenencies
+# RUN npm install -g npm@8.5.0
+
+# # Install node depenencies
 RUN npm install
 # && apk add iputils
 # Install traceroute tool
@@ -16,9 +20,10 @@ RUN npm install
 # Install python scripts requirements
 ENV PYTHONUNBUFFERED=1
 RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
+RUN apk add --upgrade tcpdump
+
 RUN python3 -m ensurepip
 RUN pip3 install --no-cache --upgrade pip setuptools
-RUN pip3 install scapy
+RUN pip3 install --pre scapy[basic]
 
-
-CMD [ "node","src/index.js"]
+CMD [ "npm","run","start:dev"]
