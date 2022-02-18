@@ -1,13 +1,19 @@
-const { execAsync } = require('../../helpers/commonHelpers');
 const { PingDecodersHelper } = require('../../helpers/pingDecodersHelper');
 const { ParametersDecoders } = require('../../helpers/parametersHelper');
+const { CommandTrigger } = require('../../helpers/commandTrigger');
 
 const getPingInfoController = async (req, res) => {
     let _params = ParametersDecoders.extractPingParams(req.query);
-    let _command = ParametersDecoders.decodBuildPingCommand(_params);
+    CommandTrigger.triggerPing(_params, (err, result) => {
+        _decodeSendOut(err, result, res)
+    })
+}
 
-    let { stderr, stdout } = await execAsync(_command);
-    if (!stderr) {
+const _decodeSendOut = (err, result, res) => {
+    console.log(err)
+    if (!err) {
+        const stdout = result.join(' ')
+        console.log("deeee", stdout, "eee")
         const _data = PingDecodersHelper.decodeLinuxPingOutput(stdout);
         res.json({
             status: 200,

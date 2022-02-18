@@ -8,7 +8,7 @@ class PingDecodersHelper {
     // Pattern to mach ttl
     static ttlPattern = /ttl=[0-9]+/i;
     // Pattern to mach time
-    static timePattern = /[0-9]+.?[0-9]*/i;
+    static timePattern = /time=[0-9]+.?[0-9]* ms/i;
 
 
     // Pattern to mach bits
@@ -73,7 +73,7 @@ class PingDecodersHelper {
 
     static extractTime = (data) => {
         let match = (PingDecodersHelper.timePattern.exec(data))[0];
-        return match.trim();
+        return match.trim().split('=')[1].split(/\s+/)[0];
     }
 
     static extractTtl = (data) => {

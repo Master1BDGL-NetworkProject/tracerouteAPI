@@ -8,5 +8,4 @@ const app = express();
 app.use(cors())
 app.use(pingRouter);
 app.use(tracerouteRouter);
-console.log('dd')
 app.listen(process.env.PORT || 8080, () => console.log('Server is running 🔥🔥'))

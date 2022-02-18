@@ -3,6 +3,7 @@ const { PythonShell } = require('python-shell');
 const { promisify } = require('util');
 
 class CommandTrigger {
+
     static getScriptsPath() {
         return path.join(process.cwd(), 'py-src', 'src');
     }
@@ -10,15 +11,21 @@ class CommandTrigger {
     /**
      * Trigger ping from python script 'ping.py'
      */
-    static triggerPing() {
-        PythonShell.run(this.getPathForScript('ping'), null, (err, result) => {
-            if (!err) {
-                console.log(result);
-            }
-            else {
-                console.log(err);
-            }
-        })
+    static triggerPing(params, callBack) {
+        const options = this.buildOptions(params)
+        PythonShell.run(this.getPathForScript('ping'), options, callBack)
+    }
+
+    static buildOptions(params) {
+        return {
+            args: [
+                `-host=${params.host}`,
+                `-packetsNu=${params.packetsNu}`,
+                `-packetSize=${params.packetSize}`,
+                `-ttl=${params.ttl}`,
+                `-timeOut=${params.timeOut}`
+            ]
+        }
     }
 
 
