@@ -4,9 +4,17 @@ const { CommandTrigger } = require('../../helpers/commandTrigger');
 
 const getPingInfoController = async (req, res) => {
     let _params = ParametersDecoders.extractPingParams(req.query);
-    CommandTrigger.triggerPing(_params, (err, result) => {
-        _decodeSendOut(err, result, res)
-    })
+
+    /// CHeck required fields
+    const { errors, isValid } = ParametersDecoders.validateParams(_params);
+    if (isValid) {
+        CommandTrigger.triggerPing(_params, (err, result) => {
+            _decodeSendOut(err, result, res)
+        })
+    }
+    else {
+        res.status(400).json({ status: 400, data: errors })
+    }
 }
 
 const _decodeSendOut = (err, result, res) => {
@@ -19,6 +27,7 @@ const _decodeSendOut = (err, result, res) => {
         });
     }
     else {
+        res.status(501)
         res.json({ status: 501, data: 'An error occured' })
     }
 }

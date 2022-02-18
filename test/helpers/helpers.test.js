@@ -74,8 +74,15 @@ describe('Testing Traceroute helpers', () => {
     })
 
 
-    it('Should print a message from python ', () => {
-        CommandTrigger.triggerPing();
-        assert.equal('a', 'a');
+    it('Should say params are valid', () => {
+        let { errors, isValid } = ParametersDecoders.validateParams({
+            host: 'google.com',
+            packetsNu: 5,
+            packetSize: 56,
+            ttl: 44,
+            timeOut: 2000,
+        });
+        console.log(errors)
+        assert.equal(isValid, true);
     })
 })

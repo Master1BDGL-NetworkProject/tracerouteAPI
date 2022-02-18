@@ -1,4 +1,28 @@
+const { json } = require("express/lib/response");
+
 class ParametersDecoders {
+
+    static getRequiredPingParametersName = () => {
+        return ["host", "packetsNu", "packetSize", "ttl", "timeOut"].sort()
+    }
+
+    static validateParams = (params) => {
+        let errors, isValid = false;
+        let _paramsNames = Object.keys(params)
+        const requiredParams = this.getRequiredPingParametersName();
+        _paramsNames = _paramsNames.sort()
+
+        if (JSON.stringify(_paramsNames) == JSON.stringify(requiredParams)) {
+            return { errors, isValid: true }
+        }
+        else {
+            let _difference = requiredParams.filter((_param) => !_paramsNames.includes(_param))
+            return {
+                errors: `Please provide this fields : ${_difference.join(',')}`,
+                isValid: false
+            }
+        }
+    }
     /// Decode params and format a command based on it
     /// The passed object should be as follow
     /* 
@@ -51,11 +75,11 @@ class ParametersDecoders {
     }
 
     static extractPingParams = (data) => ({
-        packetsNu: parseInt(data.packetsNu),
-        host: data.host,
-        packetSize: parseInt(data.packetSize),
-        ttl: parseInt(data.ttl),
-        timeOut: parseInt(data.timeOut)
+        [data.packetsNu]: parseInt(data.packetsNu),
+        [data.host]: data.host,
+        [data.packetSize]: parseInt(data.packetSize),
+        [data.ttl]: parseInt(data.ttl),
+        [data.timeOut]: parseInt(data.timeOut)
     })
 
     static extractTracerouteParams = (data) => ({
