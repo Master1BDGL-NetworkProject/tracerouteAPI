@@ -10,10 +10,8 @@ const getPingInfoController = async (req, res) => {
 }
 
 const _decodeSendOut = (err, result, res) => {
-    console.log(err)
     if (!err) {
         const stdout = result.join(' ')
-        console.log("deeee", stdout, "eee")
         const _data = PingDecodersHelper.decodeLinuxPingOutput(stdout);
         res.json({
             status: 200,
