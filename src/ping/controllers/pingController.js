@@ -4,7 +4,6 @@ const { CommandTrigger } = require('../../helpers/commandTrigger');
 
 const getPingInfoController = async (req, res) => {
     let _params = ParametersDecoders.extractPingParams(req.query);
-
     /// CHeck required fields
     const { errors, isValid } = ParametersDecoders.validateParams(_params);
     if (isValid) {

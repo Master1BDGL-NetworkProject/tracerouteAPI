@@ -12,16 +12,14 @@ class ParametersDecoders {
         const requiredParams = this.getRequiredPingParametersName();
         _paramsNames = _paramsNames.sort()
 
-        if (JSON.stringify(_paramsNames) == JSON.stringify(requiredParams)) {
-            return { errors, isValid: true }
-        }
-        else {
-            let _difference = requiredParams.filter((_param) => !_paramsNames.includes(_param))
+        let _missedField = requiredParams.filter((_param) => !(_paramsNames.includes(_param) && (params[_param] != undefined)))
+        if (_missedField.length != 0) {
             return {
-                errors: `Please provide this fields : ${_difference.join(',')}`,
+                errors: `Please provide this fields : ${_missedField.join(',')}`,
                 isValid: false
             }
         }
+        else return { isValid: true, errors }
     }
     /// Decode params and format a command based on it
     /// The passed object should be as follow
@@ -74,13 +72,15 @@ class ParametersDecoders {
         return _command;
     }
 
-    static extractPingParams = (data) => ({
-        [data.packetsNu]: parseInt(data.packetsNu),
-        [data.host]: data.host,
-        [data.packetSize]: parseInt(data.packetSize),
-        [data.ttl]: parseInt(data.ttl),
-        [data.timeOut]: parseInt(data.timeOut)
-    })
+    static extractPingParams = (data) => {
+        return ({
+            packetsNu: parseInt(data.packetsNu) || undefined,
+            host: data.host || undefined,
+            packetSize: parseInt(data.packetSize) || undefined,
+            ttl: parseInt(data.ttl) || undefined,
+            timeOut: parseInt(data.timeOut) || undefined
+        })
+    }
 
     static extractTracerouteParams = (data) => ({
         host: data.host,
