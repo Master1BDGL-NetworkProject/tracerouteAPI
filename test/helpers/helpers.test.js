@@ -67,7 +67,7 @@ describe('Testing Traceroute helpers', () => {
         5   *  *  *`
         console.log(_output)
         let res = TracerouteDecodersHelper.decodeLinuxInetUtilsTracerouteOutput(_output);
-        assert.equal(res.length, 1)
+        assert.equal(res.length, 5)
     })
 
 

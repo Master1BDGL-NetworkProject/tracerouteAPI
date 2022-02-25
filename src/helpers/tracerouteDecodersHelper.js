@@ -1,14 +1,14 @@
 class TracerouteDecodersHelper {
     // Pattern to mach hops index or number
-    static hopsNumberPattern = /[1-9]+\s+([0-9.]{1,3}.){4}/i;
+    static hopsNumberPattern = /[1-9]+\s+[\*]+|([0-9.]{1,3}.){4}/i;
     // Pattern to mach host
-    static hopsIpAdressPattern = /([0-9.]{1,3}.){4}/i;
+    static hopsIpAdressPattern = /[\*]+|([0-9.]{1,3}.){4}/i;
     // Pattern to mach sequence number
     static packetTimePattern = /\s+[0-9]+.?[0-9]*ms/gi;
 
     /// Extract matches from stdout
     static decodeLinuxInetUtilsTracerouteOutput = (output) => {
-        const pattern = /[1-9]+\s+([0-9.]{1,3}.){4}\s+(\s+[0-9]+.?[0-9]+ms){3}/gi;
+        const pattern = /[1-9]+\s+[\*]+|([0-9.]{1,3}.){4}\s+(\s+[0-9]+.?[0-9]+ms){3}/gi;
         let occurences = output.trim().match(pattern);
         let results = occurences.map((_occurence) => {
             let hopsNumber = this.extractHopsNumber(_occurence);
@@ -33,9 +33,12 @@ class TracerouteDecodersHelper {
 
     static extractPacketTime = (data) => {
         let matches = data.match(TracerouteDecodersHelper.packetTimePattern);
-        return matches.map((match) => {
-            return parseFloat(match.trim().split('ms')[0]);
-        })
+        if (matches) {
+            return matches.map((match) => {
+                return parseFloat(match.trim().split('ms')[0]);
+            })
+        }
+        return [0, 0, 0]// a trick
     }
 }
 
