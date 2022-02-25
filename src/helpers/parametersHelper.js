@@ -5,11 +5,30 @@ class ParametersDecoders {
     static getRequiredPingParametersName = () => {
         return ["host", "packetsNu", "packetSize", "ttl", "timeOut"].sort()
     }
+    static getRequiredTracerouteParametersName = () => {
+        return ["host", "hopsMaxNumber", "timeOut", "protocol"].sort()
+    }
 
-    static validateParams = (params) => {
+    static validatePingParams = (params) => {
         let errors, isValid = false;
         let _paramsNames = Object.keys(params)
         const requiredParams = this.getRequiredPingParametersName();
+        _paramsNames = _paramsNames.sort()
+
+        let _missedField = requiredParams.filter((_param) => !(_paramsNames.includes(_param) && (params[_param] != undefined)))
+        if (_missedField.length != 0) {
+            return {
+                errors: `Please provide this fields : ${_missedField.join(',')}`,
+                isValid: false
+            }
+        }
+        else return { isValid: true, errors }
+    }
+
+    static validateTracerouteParams = (params) => {
+        let errors, isValid = false;
+        let _paramsNames = Object.keys(params)
+        const requiredParams = this.getRequiredTracerouteParametersName();
         _paramsNames = _paramsNames.sort()
 
         let _missedField = requiredParams.filter((_param) => !(_paramsNames.includes(_param) && (params[_param] != undefined)))
@@ -34,16 +53,16 @@ class ParametersDecoders {
         } 
     */
 
-    static decodBuildParisTracerouteParams = (data) => {
-        let _command = 'paris-traceroute';
+    static decodBuildInetUtilsTracerouteCommand = (data) => {
+        let _command = 'inetutils-traceroute';
         if (data.hopsMaxNumber) {
-            _command += ` --max-hops=${data.hopsMaxNumber}`;
+            _command += ` --max-hop=${data.hopsMaxNumber}`;
         }
         if (data.timeOut) {
             _command += ` --wait=${data.timeOut}`;
         }
         if (data.protocol) {
-            _command += ` --protocol=${data.protocol}`;
+            _command += ` --type=${data.protocol}`;
         }
         if (data.host) {
             _command += ` ${data.host}`;
@@ -83,10 +102,10 @@ class ParametersDecoders {
     }
 
     static extractTracerouteParams = (data) => ({
-        host: data.host,
-        hopsMaxNumber: data.hopsMaxNumber,
-        timeOut: parseInt(data.timeOut),
-        protocol: data.protocol /// either udp or icmp
+        host: data.host || undefined,
+        hopsMaxNumber: data.hopsMaxNumber || undefined,
+        timeOut: parseInt(data.timeOut) || undefined,
+        protocol: data.protocol || undefined /// either udp or icmp
     })
 }
 

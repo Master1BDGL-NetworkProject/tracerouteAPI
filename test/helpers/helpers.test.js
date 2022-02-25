@@ -43,39 +43,47 @@ describe('Testing ping helpers', () => {
 })
 
 describe('Testing Traceroute helpers', () => {
-    it('Should decode stdout with starts', () => {
-        let _output = `1  172.17.0.1 (172.17.0.1)  0.161ms    0.126ms    0.106ms
-        2  * * *
-        3  * * *
-        4  * * *`
-        let res = TracerouteDecodersHelper.decodeLinuxParisTracerouteOutput(_output);
+    // it('Should decode stdout with starts', () => {
+    //     let _output = `1  172.17.0.1 (172.17.0.1)  0.161ms    0.126ms    0.106ms
+    //     2  * * *
+    //     3  * * *
+    //     4  * * *`
+    //     let res = TracerouteDecodersHelper.decodeLinuxParisTracerouteOutput(_output);
+    //     assert.equal(res.length, 1)
+    // })
+
+    it('Should decode stdout without starts', () => {
+        let _output = `1   127.0.0.1  0.017ms  0.016ms  0.009ms`
+        let res = TracerouteDecodersHelper.decodeLinuxInetUtilsTracerouteOutput(_output);
         assert.equal(res.length, 1)
     })
 
     it('Should decode stdout without starts', () => {
-        let _output = `1  172.17.0.1 (172.17.0.1)  0.161ms    0.126ms    0.106ms
-        2  192.1.15.1 (192.1.15.1)  0.161ms    0.1456ms    0.106ms
-        3  72.221.44.1 (72.221.44.1)  0.161ms    0.126ms    0.106ms
-        4  172.17.0.1 (172.17.0.1)  0.161ms    0.6ms    0.106ms
-        5  172.170.0.1 (172.170.0.1)  0.161ms    0.426ms    0.126ms`
-        let res = TracerouteDecodersHelper.decodeLinuxParisTracerouteOutput(_output);
-        assert.equal(res.length, 5)
+        let _output = `traceroute to google.com (216.58.223.238), 5 hops max
+        1   172.17.0.1  0.009ms  0.005ms  0.005ms
+        2   *  *  *
+        3   *  *  *
+        4   *  *  *
+        5   *  *  *`
+        console.log(_output)
+        let res = TracerouteDecodersHelper.decodeLinuxInetUtilsTracerouteOutput(_output);
+        assert.equal(res.length, 1)
     })
 
 
     it('Should decode params and build a paris-traceroute command', () => {
-        let command = ParametersDecoders.decodBuildParisTracerouteParams({
+        let command = ParametersDecoders.decodBuildInetUtilsTracerouteCommand({
             host: 'google.com',
             hopsMaxNumber: 5,
             timeOut: 56,
             protocol: 'udp',
         })
-        assert.equal(command, 'paris-traceroute --max-hops=5 --wait=56 --protocol=udp google.com');
+        assert.equal(command, 'inetutils-traceroute --max-hop=5 --wait=56 --type=udp google.com');
     })
 
 
     it('Should say params are valid', () => {
-        let { errors, isValid } = ParametersDecoders.validateParams({
+        let { errors, isValid } = ParametersDecoders.validatePingParams({
             host: 'google.com',
             packetsNu: 5,
             packetSize: 56,

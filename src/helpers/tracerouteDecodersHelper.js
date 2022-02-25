@@ -7,8 +7,8 @@ class TracerouteDecodersHelper {
     static packetTimePattern = /\s+[0-9]+.?[0-9]*ms/gi;
 
     /// Extract matches from stdout
-    static decodeLinuxParisTracerouteOutput = (output) => {
-        const pattern = /[1-9]+\s+([0-9.]{1,3}.){4}\s+\(([0-9.]{1,3}.){4}\)(\s+[0-9]+.?[0-9]+ms){3}/gi;
+    static decodeLinuxInetUtilsTracerouteOutput = (output) => {
+        const pattern = /[1-9]+\s+([0-9.]{1,3}.){4}\s+(\s+[0-9]+.?[0-9]+ms){3}/gi;
         let occurences = output.trim().match(pattern);
         let results = occurences.map((_occurence) => {
             let hopsNumber = this.extractHopsNumber(_occurence);

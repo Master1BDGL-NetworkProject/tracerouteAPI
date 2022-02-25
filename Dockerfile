@@ -1,6 +1,26 @@
-FROM node:alpine3.14
+FROM ubuntu:latest
 
 
+# update 
+RUN apt-get update
+
+RUN apt-get install -y inetutils-traceroute
+# install curl 
+RUN apt-get install -y curl
+# get install script and pass it to execute: 
+RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash
+# and install node 
+RUN apt-get install -y nodejs
+# confirm that it was successful 
+RUN node -v
+# npm installs automatically 
+RUN npm -v
+
+RUN apt install -y python3-pip && apt install -y tcpdump
+
+
+RUN pip3 install --no-cache --upgrade pip setuptools
+RUN pip3 install --pre scapy[basic]
 
 WORKDIR /app
 
@@ -8,22 +28,9 @@ COPY . .
 
 COPY package*.json .
 
-# RUN npm install -g npm@8.5.0
-
 # # Install node depenencies
 RUN npm install
-# && apk add iputils
-# Install traceroute tool
-# NOT NEED CURRENTLY
-# RUN apk update && apk add --upgrade paris-traceroute 
 
-# Install python scripts requirements
-ENV PYTHONUNBUFFERED=1
-RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
-RUN apk add --upgrade tcpdump
-
-RUN python3 -m ensurepip
-RUN pip3 install --no-cache --upgrade pip setuptools
-RUN pip3 install --pre scapy[basic]
+EXPOSE 8080
 
 CMD ["npm","run","start:prod"]
