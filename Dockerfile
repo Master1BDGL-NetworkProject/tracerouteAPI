@@ -8,7 +8,7 @@ RUN apt-get install -y inetutils-traceroute
 # install curl 
 RUN apt-get install -y curl
 # get install script and pass it to execute: 
-RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
 # and install node 
 RUN apt-get install -y nodejs
 # confirm that it was successful 
@@ -20,13 +20,14 @@ RUN apt install -y python3-pip && apt install -y tcpdump
 
 
 RUN pip3 install --no-cache --upgrade pip setuptools
+
 RUN pip3 install --pre scapy[basic]
 
-WORKDIR /app
+WORKDIR /app 
 
 COPY . .
 
-COPY package*.json .
+COPY package*.json ./
 
 # # Install node depenencies
 RUN npm install
